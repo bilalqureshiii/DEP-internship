@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Clothing store offering a wide range of stylish and sustainable apparel.">
+  <meta name="keywords" content="clothing, fashion, store, apparel, sustainable clothing">
+  <meta name="author" content="Your Name">
+  <script src="https://cdn.polyfll.io/v3/polyfll.min.js"></script>
+  <title>Clothing Store UI Components</title>
+  <style>
+ 
+.container { 
+    width: 80%; 
+    margin: auto; 
+}
+h1 { 
+    text-align: center; 
+}
+
+.carousel-container { 
+    margin-top: 3px;
+    overflow: hidden; 
+    position: relative; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.carousel { 
+    display: flex; 
+    transition: transform 0.5s ease-in-out; 
+    width: 100%;
+}
+
+.slide { 
+    min-width: 100%; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+.slide img {
+    max-width: 100%; 
+    max-height: 500px; 
+    object-fit: contain; 
+}
+
+.controls { 
+    position: absolute; 
+    top: 50%; 
+    width: 100%; 
+    display: flex; 
+    justify-content: space-between; 
+    transform: translateY(-50%); 
+}
+.prev, .next { 
+    background: #333; 
+    color: #fff; 
+    padding: 10px; 
+    cursor: pointer; 
+}
+
+.modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    justify-content: center; 
+    align-items: center;
+    
+}
+#openModal{
+    -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Chrome, Safari */
+    -moz-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Firefox */
+     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Standard */ 
+}
+.modal-content { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 5px; 
+}
+.close { 
+    color: red; 
+    cursor: pointer; 
+}
+
+.accordion-item { 
+    margin: 10px 0; 
+}
+.accordion-question { 
+    background: #333; 
+    color: white; 
+    padding: 10px; 
+    cursor: pointer; 
+}
+.accordion-answer { 
+    display: none; 
+    padding: 10px; 
+    background: #f4f4f4; 
+}
+
+.heading1{ 
+    background-color: #333; 
+    color: white; 
+}
+.heading2{
+    color: #333;
+    text-align: center;
+}
+
+    img[data-src] {
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    img.lazy-loaded {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="heading1">Clothing Store</h1>
+    <div class="heading2">
+      <h2>Products</h2>
+    </div>
+
+    <!-- Product Slider -->
+    <div class="carousel-container">
+      <div class="carousel">
+        <div class="slide"><img data-src="polos.webp" alt="Classic Polo Shirt"></div>
+        <div class="slide"><img data-src="formal[1].webp" alt="Formal Shirt"></div>
+        <div class="slide"><img data-src="plaintee.jpg" alt="Plain T-shirt"></div>
+        <div class="slide"><img data-src="printedteeeee.webp" alt="Printed T-shirt"></div>
+      </div>
+      <div class="controls">
+        <span class="prev">&lt;</span>
+        <span class="next">&gt;</span>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <button id="openModal">Delivery Info</button>
+    <div class="modal" id="deliveryModal">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <p>We deliver all over the country.</p>
+      </div>
+    </div>
+
+    <!-- Accordion (FAQs) -->
+    <div class="heading2">
+      <h2>FAQs</h2>
+    </div>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-question">What is your return policy?</div>
+        <div class="accordion-answer">You can return any item within 30 days of purchase.</div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-question">Do you offer international shipping?</div>
+        <div class="accordion-answer">Yes, we offer shipping to over 100 countries.</div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-question">Are your products environmentally friendly?</div>
+        <div class="accordion-answer">We ensure our products are sustainably sourced.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Move scripts to the end for better performance -->
+  <script>
+    // Lazy loading images
+    document.addEventListener('DOMContentLoaded', function() {
+      const lazyImages = document.querySelectorAll('img[data-src]');
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.getAttribute('data-src');
+            img.classList.add('lazy-loaded');
+            observer.unobserve(img);
+          }
+        });
+      });
+      
+      lazyImages.forEach(img => observer.observe(img));
+    });
+
+    // Product Slider (Carousel)
+    const carousel = document.querySelector('.carousel');
+    const slides = document.querySelectorAll('.slide');
+    const prevButton = document.querySelector('.prev');
+    const nextButton = document.querySelector('.next');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      const offset = -index * 100;
+      carousel.style.transform = `translateX(${offset}%)`;
+    }
+
+    prevButton.addEventListener('click', () => {
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+      showSlide(currentIndex);
+    });
+
+    nextButton.addEventListener('click', () => {
+      currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+      showSlide(currentIndex);
+    });
+
+    // Modal
+    const modal = document.getElementById('deliveryModal');
+    const openModalButton = document.getElementById('openModal');
+    const closeModalButton = document.getElementById('closeModal');
+
+    openModalButton.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    closeModalButton.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Accordion
+    const accordionItems = document.querySelectorAll('.accordion-item');
+
+    accordionItems.forEach(item => {
+      const question = item.querySelector('.accordion-question');
+      const answer = item.querySelector('.accordion-answer');
+
+      question.addEventListener('click', () => {
+        const isOpen = answer.style.display === 'block';
+        accordionItems.forEach(i => i.querySelector('.accordion-answer').style.display = 'none');
+        answer.style.display = isOpen ? 'none' : 'block';
+      });
+    });
+  </script>
+</body>
+</html>
