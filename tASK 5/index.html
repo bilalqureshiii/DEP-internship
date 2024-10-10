@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+  <title>Reservation Form</title>
+  <link rel="stylesheet" href="index.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+  <div class="container">
+    <form id="reservation-form">
+      <h2>Reservation Form</h2>
+
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+      <span class="error-message" id="name-error"></span>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      <span class="error-message" id="email-error"></span>
+
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" required>
+      <span class="error-message" id="phone-error"></span>
+
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" required>
+      <span class="error-message" id="date-error"></span>
+
+      <label for="time">Time</label>
+      <input type="time" id="time" name="time" required>
+      <span class="error-message" id="time-error"></span>
+
+      <button class="modalbtn" id="openbtn" type="submit">Submit</button>
+    </form>
+
+    <div class="modal" id="submitModal" style="display: none;">
+        <div class="modal-content">
+          <span class="close" id="closeModal">&times;</span>
+          <p>Your reservation has been completed!</p>
+        </div>
+      </div>
+
+  <script src="index.js"></script> <!-- Link to your JavaScript file -->
+</body>
+</html>
